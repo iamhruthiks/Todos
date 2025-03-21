@@ -33,6 +33,7 @@ const seedData = async () => {
           { content: "Remember to add error handling", date: "2025-03-21" },
         ],
         userId: users[0]._id,
+        createdAt: new Date("2025-03-18T12:00:00Z"),
       },
       {
         title: "Test the application",
@@ -43,6 +44,7 @@ const seedData = async () => {
         assignedUsers: ["@alice", "@charlie"],
         notes: [{ content: "Write Test cases", date: "2025-03-21" }],
         userId: users[1]._id,
+        createdAt: new Date("2025-03-19T10:30:00Z"),
       },
       {
         title: "Deploy the application",
@@ -52,12 +54,10 @@ const seedData = async () => {
         tags: ["deployment", "coding"],
         assignedUsers: ["@mike"],
         notes: [
-          {
-            content: "Create docked image for deployement",
-            date: "2025-03-22",
-          },
+          { content: "Create docker image for deployment", date: "2025-03-22" },
         ],
         userId: users[2]._id,
+        createdAt: new Date("2025-03-20T08:15:00Z"),
       },
       {
         title: "Monitoring the application",
@@ -68,30 +68,32 @@ const seedData = async () => {
         assignedUsers: ["@charlie"],
         notes: [
           {
-            content: "Implmenet GA4 for monitory the application",
+            content: "Implement GA4 for monitoring the application",
             date: "2025-03-23",
           },
         ],
         userId: users[3]._id,
+        createdAt: new Date("2025-03-21T14:45:00Z"),
       },
       {
         title: "SEO",
-        description: "implement SEO",
+        description: "Implement SEO",
         priority: "medium",
         completed: false,
         tags: ["SEO"],
         assignedUsers: ["@hruthik"],
         notes: [
           {
-            content: "Add necessay meta tags and key words for SEO",
-            date: "2023-03-24",
+            content: "Add necessary meta tags and keywords for SEO",
+            date: "2025-03-24",
           },
         ],
         userId: users[4]._id,
+        createdAt: new Date("2025-03-22T16:30:00Z"),
       },
     ];
 
-    // Insert todos into DB
+    // insert todos into DB
     await Todo.insertMany(todos);
     console.log("users and todos seeded successfully!");
     process.exit();
