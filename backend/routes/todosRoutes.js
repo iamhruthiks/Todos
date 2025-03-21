@@ -5,7 +5,6 @@ import { createTodo } from "../controllers/todosController.js";
 import { updateTodo } from "../controllers/todosController.js";
 import { deleteTodo } from "../controllers/todosController.js";
 import { addNoteToTodo } from "../controllers/todosController.js";
-import { getUserTodos } from "../controllers/todosController.js";
 
 const router = express.Router();
 
@@ -24,6 +23,12 @@ const router = express.Router();
  *     tags: [Todos]
  *     description: Fetches all todos, supporting filtering and sorting.
  *     parameters:
+ *       - in: query
+ *         name: user
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filter todos created by a specific user.
  *       - in: query
  *         name: assignedTo
  *         schema:
@@ -353,50 +358,5 @@ router.delete("/:id", deleteTodo);
  *         description: Internal server error
  */
 router.post("/:id/notes", addNoteToTodo);
-
-/**
- * @swagger
- * /api/todos/user-todos:
- *   get:
- *     summary: Get todos created by a specific user
- *     tags: [Todos]
- *     description: Fetches todos created by a specific user
- *     parameters:
- *       - in: query
- *         name: user
- *         schema:
- *           type: string
- *         required: true
- *         description: The username of the user whose todos should be fetched
- *     responses:
- *       200:
- *         description: Successfully retrieved todos
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 todos:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       _id:
- *                         type: string
- *                       title:
- *                         type: string
- *       400:
- *         description: User query parameter is required
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- */
-router.get("/user-todos", getUserTodos);
 
 export default router;
