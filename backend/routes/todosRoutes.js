@@ -4,6 +4,7 @@ import { getTodoById } from "../controllers/todosController.js";
 import { createTodo } from "../controllers/todosController.js";
 import { updateTodo } from "../controllers/todosController.js";
 import { deleteTodo } from "../controllers/todosController.js";
+import { addNoteToTodo } from "../controllers/todosController.js";
 import { getUserTodos } from "../controllers/todosController.js";
 
 const router = express.Router();
@@ -327,6 +328,50 @@ router.put("/:id", updateTodo);
  *         description: Internal server error
  */
 router.delete("/:id", deleteTodo);
+
+/**
+ * @swagger
+ * /api/todos/{id}/notes:
+ *   post:
+ *     summary: Add a note to a specific todo
+ *     tags:
+ *       - Todos
+ *     description: Adds a note to a specific todo.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the todo to add a note to.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - content
+ *               - date
+ *             properties:
+ *               content:
+ *                 type: string
+ *                 example: "Remember to review the code"
+ *               date:
+ *                 type: string
+ *                 format: date
+ *                 example: "2025-03-26"
+ *     responses:
+ *       201:
+ *         description: Successfully added the note
+ *       400:
+ *         description: Missing content or date
+ *       404:
+ *         description: Todo not found
+ *       500:
+ *         description: Internal server error
+ */
+router.post("/:id/notes", addNoteToTodo);
 
 /**
  * @swagger

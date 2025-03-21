@@ -216,3 +216,32 @@ export const deleteTodo = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// adding the notes to todo
+export const addNoteToTodo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content, date } = req.body;
+
+    if (!content || !date) {
+      return res.status(400).json({ message: "Content and date are required" });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid todo ID format" });
+    }
+
+    const todo = await Todo.findById(id);
+    if (!todo) {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+
+    todo.notes.push({ content, date });
+    const updatedTodo = await todo.save();
+
+    res.status(201).json(updatedTodo);
+  } catch (error) {
+    console.error("Error adding note:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
