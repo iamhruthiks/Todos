@@ -3,6 +3,7 @@ import { getTodos } from "../controllers/todosController.js";
 import { getTodoById } from "../controllers/todosController.js";
 import { createTodo } from "../controllers/todosController.js";
 import { updateTodo } from "../controllers/todosController.js";
+import { deleteTodo } from "../controllers/todosController.js";
 import { getUserTodos } from "../controllers/todosController.js";
 
 const router = express.Router();
@@ -284,6 +285,48 @@ router.post("/", createTodo);
  *         description: Internal server error
  */
 router.put("/:id", updateTodo);
+
+/**
+ * @swagger
+ * /api/todos/{id}:
+ *   delete:
+ *     summary: Delete a todo
+ *     tags:
+ *       - Todos
+ *     description: Deletes a todo while ensuring only the creator can delete it.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the todo to delete.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - userId
+ *             properties:
+ *               userId:
+ *                 type: string
+ *                 description: The ID of the user making the request.
+ *                 example: "67dcfef8d3093b0a3e0c53a1"
+ *     responses:
+ *       200:
+ *         description: Successfully deleted the todo
+ *       400:
+ *         description: Invalid todo ID or userId
+ *       403:
+ *         description: User is not authorized to delete this todo
+ *       404:
+ *         description: Todo not found
+ *       500:
+ *         description: Internal server error
+ */
+router.delete("/:id", deleteTodo);
 
 /**
  * @swagger

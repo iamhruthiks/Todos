@@ -133,6 +133,7 @@ export const createTodo = async (req, res) => {
   }
 };
 
+// updating a todo
 export const updateTodo = async (req, res) => {
   try {
     const { id } = req.params;
@@ -179,6 +180,39 @@ export const updateTodo = async (req, res) => {
     res.status(200).json(updatedTodo);
   } catch (error) {
     console.error("Error updating todo:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// deleting a todo
+export const deleteTodo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid todo ID format" });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid userId format" });
+    }
+
+    const todo = await Todo.findById(id);
+    if (!todo) {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+
+    if (todo.userId.toString() !== userId) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to delete this todo" });
+    }
+
+    await Todo.findByIdAndDelete(id);
+    res.status(200).json({ message: "Todo deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting todo:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
