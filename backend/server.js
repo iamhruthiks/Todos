@@ -19,15 +19,15 @@ app.use(morgan("dev"));
 // connect to mongoDB database
 connectDB();
 
-// API documentation
-swaggerDocs(app);
-
 // routes
 app.get("/", (req, res) => {
   res.send("Welcome To Todos!");
 });
 app.use("/api/users", userRoutes);
 app.use("/api/todos", todosRoutes);
+
+// API documentation
+swaggerDocs(app);
 
 // server port
 const PORT = process.env.PORT || 8000;

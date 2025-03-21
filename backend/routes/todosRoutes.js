@@ -1,13 +1,14 @@
 import express from "express";
 import { getTodos } from "../controllers/todosController.js";
+import { getUserTodos } from "../controllers/todosController.js";
 
 const router = express.Router();
 
 /**
  * @swagger
  * tags:
- *   name: Todos
- *   description: Todos management
+ *   - name: Todos
+ *     description: Todos management and user-specific todos
  */
 
 /**
@@ -15,8 +16,7 @@ const router = express.Router();
  * /api/todos:
  *   get:
  *     summary: Get all todos
- *     tags:
- *       - Todos
+ *     tags: [Todos]
  *     description: Fetches all todos, supporting filtering and sorting.
  *     parameters:
  *       - in: query
@@ -69,6 +69,44 @@ const router = express.Router();
  *                         type: string
  *       500:
  *         description: Internal server error
+ */
+router.get("/", getTodos);
+
+/**
+ * @swagger
+ * /api/todos/user-todos:
+ *   get:
+ *     summary: Get todos created by a specific user
+ *     tags: [Todos]
+ *     description: Fetches todos created by a specific user
+ *     parameters:
+ *       - in: query
+ *         name: user
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The username of the user whose todos should be fetched
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved todos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 todos:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                       title:
+ *                         type: string
+ *       400:
+ *         description: User query parameter is required
+ *       500:
+ *         description: Internal server error
  *         content:
  *           application/json:
  *             schema:
@@ -77,7 +115,6 @@ const router = express.Router();
  *                 message:
  *                   type: string
  */
-
-router.get("/", getTodos);
+router.get("/user-todos", getUserTodos);
 
 export default router;

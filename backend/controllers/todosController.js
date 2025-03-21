@@ -1,5 +1,7 @@
 import Todo from "../models/todosModel.js";
+import User from "../models/userModel.js";
 
+// getting all the todos
 export const getTodos = async (req, res) => {
   try {
     const {
@@ -32,6 +34,31 @@ export const getTodos = async (req, res) => {
     res.status(200).json({ todos });
   } catch (error) {
     console.error("Error fetching todos:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// getting todos for the specific user( todos which are created by the specific user)
+export const getUserTodos = async (req, res) => {
+  try {
+    const { user } = req.query;
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "User query parameter is required" });
+    }
+
+    const userData = await User.findOne({ username: user });
+    if (!userData) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const todos = await Todo.find({ userId: userData._id });
+
+    res.status(200).json({ todos });
+  } catch (error) {
+    console.error("Error fetching user todos:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
