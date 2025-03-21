@@ -144,7 +144,6 @@ export const updateTodo = async (req, res) => {
       priority,
       tags,
       assignedUsers,
-      notes,
       completed,
     } = req.body;
 
@@ -158,7 +157,7 @@ export const updateTodo = async (req, res) => {
 
     const todo = await Todo.findById(id);
     if (!todo) {
-      return res.status(404).json({ message: "Todo id not found" });
+      return res.status(404).json({ message: "Todo not found" });
     }
 
     if (todo.userId.toString() !== userId) {
@@ -167,13 +166,13 @@ export const updateTodo = async (req, res) => {
         .json({ message: "You are not authorized to edit this todo" });
     }
 
-    todo.title = title || todo.title;
-    todo.description = description || todo.description;
-    todo.priority = priority || todo.priority;
-    todo.tags = tags || todo.tags;
-    todo.assignedUsers = assignedUsers || todo.assignedUsers;
-    todo.notes = notes || todo.notes;
-    todo.completed = completed !== undefined ? completed : todo.completed;
+    if (title !== undefined) todo.title = title;
+    if (description !== undefined) todo.description = description;
+    if (priority !== undefined) todo.priority = priority;
+    if (tags !== undefined) todo.tags = tags;
+    if (assignedUsers !== undefined) todo.assignedUsers = assignedUsers;
+    if (completed !== undefined) todo.completed = completed;
+
     todo.updatedAt = new Date();
 
     const updatedTodo = await todo.save();

@@ -210,7 +210,7 @@ router.post("/", createTodo);
  *     summary: Update an existing todo
  *     tags:
  *       - Todos
- *     description: Updates a todo while ensuring only the creator can edit it.
+ *     description: Allows partial updates to a todo but does not allow modifying notes.
  *     parameters:
  *       - in: path
  *         name: id
@@ -226,13 +226,6 @@ router.post("/", createTodo);
  *             type: object
  *             required:
  *               - userId
- *               - title
- *               - description
- *               - priority
- *               - completed
- *               - tags
- *               - assignedUsers
- *               - notes
  *             properties:
  *               title:
  *                 type: string
@@ -257,18 +250,6 @@ router.post("/", createTodo);
  *                 items:
  *                   type: string
  *                 example: ["@hruthik", "@alice"]
- *               notes:
- *                 type: array
- *                 items:
- *                   type: object
- *                   properties:
- *                     content:
- *                       type: string
- *                       example: "Updated note content"
- *                     date:
- *                       type: string
- *                       format: date
- *                       example: "2025-03-25"
  *               userId:
  *                 type: string
  *                 description: The ID of the user making the request.
