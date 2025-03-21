@@ -3,6 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import swaggerDocs from "./config/swagger.js";
 
 dotenv.config();
 
@@ -15,6 +16,9 @@ app.use(morgan("dev"));
 
 // connect to mongoDB database
 connectDB();
+
+// API documentation
+swaggerDocs(app);
 
 // routes
 app.get("/", (req, res) => {
