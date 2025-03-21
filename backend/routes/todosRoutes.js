@@ -1,6 +1,7 @@
 import express from "express";
 import { getTodos } from "../controllers/todosController.js";
 import { getTodoById } from "../controllers/todosController.js";
+import { createTodo } from "../controllers/todosController.js";
 import { getUserTodos } from "../controllers/todosController.js";
 
 const router = express.Router();
@@ -77,10 +78,9 @@ router.get("/", getTodos);
  * @swagger
  * /api/todos/{id}:
  *   get:
- *     summary: Get a specific todo by ID
- *     tags:
- *       - Todos
- *     description: Fetches a single todo by ID with detailed information.
+ *     summary: Get a specific todo by id
+ *     tags: [Todos]
+ *     description: Fetches a single todo by id.
  *     parameters:
  *       - in: path
  *         name: id
@@ -129,6 +129,76 @@ router.get("/", getTodos);
  *         description: Internal server error
  */
 router.get("/:id", getTodoById);
+
+/**
+ * @swagger
+ * /api/todos:
+ *   post:
+ *     summary: Create a new todo
+ *     tags: [Todos]
+ *     description: Creates a new todo and associates it with the current user.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - userId
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: The title of the todo.
+ *               description:
+ *                 type: string
+ *                 description: A description of the todo.
+ *               priority:
+ *                 type: string
+ *                 enum: [low, medium, high]
+ *                 description: Priority level of the todo.
+ *                 example: "high"
+ *               tags:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Tags associated with the todo.
+ *                 example: ["work", "urgent"]
+ *               assignedUsers:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Array of usernames assigned to this todo.
+ *                 example: ["hruthik", "alice"]
+ *               notes:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     content:
+ *                       type: string
+ *                       description: Note content.
+ *                       example: "Remember to add validation"
+ *                     date:
+ *                       type: string
+ *                       format: date
+ *                       description: Date of the note (YYYY-MM-DD format).
+ *                       example: "2025-03-25"
+ *               userId:
+ *                 type: string
+ *                 description: The ID of the user creating the todo.
+ *                 example: "67dcfef8d3093b0a3e0c53a1"
+ *     responses:
+ *       201:
+ *         description: Successfully created todo
+ *       400:
+ *         description: Missing required fields or invalid assigned users
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+router.post("/", createTodo);
 
 /**
  * @swagger
