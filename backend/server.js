@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import swaggerDocs from "./config/swagger.js";
 import userRoutes from "./routes/userRoutes.js";
+import todosRoutes from "./routes/todosRoutes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
   res.send("Welcome To Todos!");
 });
 app.use("/api/users", userRoutes);
+app.use("/api/todos", todosRoutes);
 
 // server port
 const PORT = process.env.PORT || 8000;
