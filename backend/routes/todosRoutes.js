@@ -1,5 +1,6 @@
 import express from "express";
 import { getTodos } from "../controllers/todosController.js";
+import { getTodoById } from "../controllers/todosController.js";
 import { getUserTodos } from "../controllers/todosController.js";
 
 const router = express.Router();
@@ -71,6 +72,63 @@ const router = express.Router();
  *         description: Internal server error
  */
 router.get("/", getTodos);
+
+/**
+ * @swagger
+ * /api/todos/{id}:
+ *   get:
+ *     summary: Get a specific todo by ID
+ *     tags:
+ *       - Todos
+ *     description: Fetches a single todo by ID with detailed information.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the todo to fetch.
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the todo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 title:
+ *                   type: string
+ *                 description:
+ *                   type: string
+ *                 priority:
+ *                   type: string
+ *                 completed:
+ *                   type: boolean
+ *                 tags:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                 assignedUsers:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                 notes:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       content:
+ *                         type: string
+ *                       date:
+ *                         type: string
+ *       404:
+ *         description: Todo not found
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/:id", getTodoById);
 
 /**
  * @swagger
