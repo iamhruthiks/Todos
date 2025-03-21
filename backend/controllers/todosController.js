@@ -93,7 +93,7 @@ export const createTodo = async (req, res) => {
     }
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
-      return res.status(400).json({ message: "Invalid userId" });
+      return res.status(400).json({ message: "Invalid userId format" });
     }
 
     const userExists = await User.findById(userId);
@@ -129,6 +129,56 @@ export const createTodo = async (req, res) => {
     res.status(201).json(savedTodo);
   } catch (error) {
     console.error("Error creating todo:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const updateTodo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      userId,
+      title,
+      description,
+      priority,
+      tags,
+      assignedUsers,
+      notes,
+      completed,
+    } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid userId format" });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid todo ID format" });
+    }
+
+    const todo = await Todo.findById(id);
+    if (!todo) {
+      return res.status(404).json({ message: "Todo id not found" });
+    }
+
+    if (todo.userId.toString() !== userId) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to edit this todo" });
+    }
+
+    todo.title = title || todo.title;
+    todo.description = description || todo.description;
+    todo.priority = priority || todo.priority;
+    todo.tags = tags || todo.tags;
+    todo.assignedUsers = assignedUsers || todo.assignedUsers;
+    todo.notes = notes || todo.notes;
+    todo.completed = completed !== undefined ? completed : todo.completed;
+    todo.updatedAt = new Date();
+
+    const updatedTodo = await todo.save();
+    res.status(200).json(updatedTodo);
+  } catch (error) {
+    console.error("Error updating todo:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

@@ -2,6 +2,7 @@ import express from "express";
 import { getTodos } from "../controllers/todosController.js";
 import { getTodoById } from "../controllers/todosController.js";
 import { createTodo } from "../controllers/todosController.js";
+import { updateTodo } from "../controllers/todosController.js";
 import { getUserTodos } from "../controllers/todosController.js";
 
 const router = express.Router();
@@ -199,6 +200,90 @@ router.get("/:id", getTodoById);
  *         description: Internal server error
  */
 router.post("/", createTodo);
+
+/**
+ * @swagger
+ * /api/todos/{id}:
+ *   put:
+ *     summary: Update an existing todo
+ *     tags:
+ *       - Todos
+ *     description: Updates a todo while ensuring only the creator can edit it.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the todo to update.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - userId
+ *               - title
+ *               - description
+ *               - priority
+ *               - completed
+ *               - tags
+ *               - assignedUsers
+ *               - notes
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Updated Task Title"
+ *               description:
+ *                 type: string
+ *                 example: "Updated task description"
+ *               priority:
+ *                 type: string
+ *                 enum: [low, medium, high]
+ *                 example: "high"
+ *               completed:
+ *                 type: boolean
+ *                 example: true
+ *               tags:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 example: ["urgent", "work"]
+ *               assignedUsers:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 example: ["@hruthik", "@alice"]
+ *               notes:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     content:
+ *                       type: string
+ *                       example: "Updated note content"
+ *                     date:
+ *                       type: string
+ *                       format: date
+ *                       example: "2025-03-25"
+ *               userId:
+ *                 type: string
+ *                 description: The ID of the user making the request.
+ *                 example: "67dcfef8d3093b0a3e0c53a1"
+ *     responses:
+ *       200:
+ *         description: Successfully updated the todo
+ *       400:
+ *         description: Missing required fields or invalid request
+ *       403:
+ *         description: User is not authorized to edit this todo
+ *       404:
+ *         description: Todo or user not found
+ *       500:
+ *         description: Internal server error
+ */
+router.put("/:id", updateTodo);
 
 /**
  * @swagger
