@@ -9,7 +9,7 @@ export const getTodos = async (req, res) => {
     const {
       user,
       sortBy = "createdAt",
-      order = "desc",
+      order = "asc",
       tags,
       priority,
       assignedTo,
