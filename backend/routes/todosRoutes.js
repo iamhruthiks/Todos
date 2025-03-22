@@ -98,7 +98,8 @@ router.get("/", getTodos);
  *           type: string
  *           enum: [json, csv]
  *         required: false
- *         description: The export format (default: JSON).
+ *         description: |
+ *           The export format (default: JSON).
  *     responses:
  *       200:
  *         description: Successfully exported todos
