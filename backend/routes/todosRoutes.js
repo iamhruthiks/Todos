@@ -5,6 +5,7 @@ import { createTodo } from "../controllers/todosController.js";
 import { updateTodo } from "../controllers/todosController.js";
 import { deleteTodo } from "../controllers/todosController.js";
 import { addNoteToTodo } from "../controllers/todosController.js";
+import { exportTodos } from "../controllers/todosController.js";
 
 const router = express.Router();
 
@@ -81,6 +82,61 @@ const router = express.Router();
  *         description: Internal server error
  */
 router.get("/", getTodos);
+
+/**
+ * @swagger
+ * /api/todos/export:
+ *   get:
+ *     summary: Export all todos
+ *     tags:
+ *       - Todos
+ *     description: Exports all todos in JSON or CSV format.
+ *     parameters:
+ *       - in: query
+ *         name: format
+ *         schema:
+ *           type: string
+ *           enum: [json, csv]
+ *         required: false
+ *         description: The export format (default: JSON).
+ *     responses:
+ *       200:
+ *         description: Successfully exported todos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 todos:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                       title:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       priority:
+ *                         type: string
+ *                       completed:
+ *                         type: boolean
+ *                       tags:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                       assignedUsers:
+ *                         type: array
+ *                         items:
+ *                           type: string
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/export", exportTodos);
 
 /**
  * @swagger

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Todo from "../models/todosModel.js";
 import User from "../models/userModel.js";
+import { Parser } from "json2csv";
 
 // getting all the todos
 export const getTodos = async (req, res) => {
@@ -222,6 +223,45 @@ export const addNoteToTodo = async (req, res) => {
     res.status(201).json(updatedTodo);
   } catch (error) {
     console.error("Error adding note:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// exporting the todos
+export const exportTodos = async (req, res) => {
+  try {
+    const { format = "json" } = req.query;
+    const todos = await Todo.find();
+
+    if (format === "csv") {
+      const fields = [
+        "title",
+        "description",
+        "priority",
+        "completed",
+        "tags",
+        "assignedUsers",
+        "createdAt",
+      ];
+      const json2csvParser = new Parser({ fields });
+      const csv = json2csvParser.parse(todos);
+
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="todos_export.csv"'
+      );
+      res.setHeader("Content-Type", "text/csv");
+      return res.status(200).send(csv);
+    }
+
+    res.setHeader(
+      "Content-Disposition",
+      'attachment; filename="todos_export.json"'
+    );
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).json(todos);
+  } catch (error) {
+    console.error("Error exporting todos:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
