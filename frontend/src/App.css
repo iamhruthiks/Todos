@@ -44,6 +44,24 @@
   padding-top: 6rem;
 }
 
+/* All Todos */
+.card {
+  box-shadow: 0px 10px 10px #00000033;
+  border: none;
+}
+
+.text-low {
+  color: green !important;
+}
+
+.text-medium {
+  color: orange !important;
+}
+
+.text-high {
+  color: red !important;
+}
+
 @media screen and (max-width: 768px) {
   /* Navbar */
   .dropdown-menu {
