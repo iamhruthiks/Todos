@@ -211,11 +211,7 @@ export const addNoteToTodo = async (req, res) => {
     const { content, date } = req.body;
 
     if (!content || !date) {
-      return res.status(400).json({ message: "Content and date are required" });
-    }
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: "Invalid todo ID format" });
+      return res.status(400).json({ message: "Missing content or date" });
     }
 
     const todo = await Todo.findById(id);
@@ -226,9 +222,13 @@ export const addNoteToTodo = async (req, res) => {
     todo.notes.push({ content, date });
     const updatedTodo = await todo.save();
 
-    res.status(201).json(updatedTodo);
+    const populatedTodo = await Todo.findById(updatedTodo._id).populate(
+      "userId",
+      "username"
+    );
+    res.status(201).json(populatedTodo);
   } catch (error) {
-    console.error("Error adding note:", error);
+    console.error("Error adding note to todo:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
