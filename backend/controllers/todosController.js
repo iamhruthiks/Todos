@@ -32,7 +32,9 @@ export const getTodos = async (req, res) => {
       query.priority = priority;
     }
     if (assignedTo) {
-      query.assignedUsers = { $in: [assignedTo] };
+      // Split assignedTo by commas to support multiple users
+      const assignedUsersArray = assignedTo.split(",");
+      query.assignedUsers = { $in: assignedUsersArray };
     }
 
     const todos = await Todo.find(query)

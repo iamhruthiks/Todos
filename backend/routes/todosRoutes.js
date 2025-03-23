@@ -35,13 +35,13 @@ const router = express.Router();
  *         schema:
  *           type: string
  *         required: false
- *         description: Filter todos assigned to a specific user.
+ *         description: Filter todos assigned to specific users (comma-separated values, e.g., @hruthik,@alice).
  *       - in: query
  *         name: tags
  *         schema:
  *           type: string
  *         required: false
- *         description: Filter by tags (comma-separated values).
+ *         description: Filter by tags (comma-separated values, e.g., work,coding).
  *       - in: query
  *         name: priority
  *         schema:
