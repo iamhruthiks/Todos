@@ -62,6 +62,35 @@
   color: red !important;
 }
 
+.priority-label {
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: 0.3s ease-in-out;
+}
+
+.low {
+  background-color: green;
+  color: white;
+}
+
+.medium {
+  background-color: orange;
+  color: white;
+}
+
+.high {
+  background-color: red;
+  color: white;
+}
+
+.selected {
+  transform: scale(1.1);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
 @media screen and (max-width: 768px) {
   /* Navbar */
   .dropdown-menu {
