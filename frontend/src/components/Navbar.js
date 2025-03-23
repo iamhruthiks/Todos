@@ -53,7 +53,7 @@ const Navbar = () => {
                 >
                   Switch User
                 </a>
-                <ul className="dropdown-menu  custom-dropdown">
+                <ul className="dropdown-menu dropdown-menu-switchuser">
                   <li>
                     <a className="dropdown-item" href="#">
                       User1

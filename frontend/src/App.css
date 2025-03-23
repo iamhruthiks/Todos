@@ -35,7 +35,7 @@
   border-radius: 0.5rem;
 }
 
-.dropdown-menu {
+.dropdown-menu-switchuser {
   transform: translateX(-30px);
 }
 
@@ -91,9 +91,21 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+.dropdown-menu {
+  width: 100%;
+}
+
+.form-check {
+  margin-bottom: 0.25rem;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
 @media screen and (max-width: 768px) {
   /* Navbar */
-  .dropdown-menu {
+  .dropdown-menu-switchuser {
     transform: none;
   }
 }
