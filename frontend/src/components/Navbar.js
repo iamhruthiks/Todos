@@ -60,6 +60,16 @@ const Navbar = () => {
                 All Todos
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                Dashboard
+              </NavLink>
+            </li>
           </ul>
           <ul className="navbar-nav right-nav">
             <li className="nav-item dropdown">

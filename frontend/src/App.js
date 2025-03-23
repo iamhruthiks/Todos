@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import AllTodos from "./pages/AllTodos";
 import TodoDetails from "./pages/TodoDeatils";
+import Profile from "./pages/Dashboard";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/todos" element={<AllTodos />} />
           <Route path="/todos/:id" element={<TodoDetails />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </BrowserRouter>
