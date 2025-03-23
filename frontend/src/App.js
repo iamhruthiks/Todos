@@ -8,6 +8,7 @@ import AllTodos from "./pages/AllTodos";
 import TodoDetails from "./pages/TodoDeatils";
 import DashBoard from "./pages/Dashboard";
 import CreateTodo from "./pages/CreateTodo";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/create" element={<CreateTodo />} />
         </Routes>
+        <Footer />
       </div>
     </BrowserRouter>
   );

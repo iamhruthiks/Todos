@@ -509,3 +509,13 @@ p.demos {
     bottom: 180px;
   }
 }
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  padding: 10px 0;
+  text-align: center;
+}
