@@ -49,6 +49,19 @@ export const updateTodo = async (id, updatedData) => {
   }
 };
 
+// delete a todo
+export const deleteTodo = async (id, userId) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/todos/${id}`, {
+      data: { userId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting todo:", error);
+    return null;
+  }
+};
+
 // adding a note to todo
 export const addNoteToTodo = async (id, noteData) => {
   try {

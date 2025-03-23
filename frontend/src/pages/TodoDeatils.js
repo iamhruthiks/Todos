@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   fetchTodoById,
   fetchUsers,
   updateTodo,
+  deleteTodo,
   addNoteToTodo,
 } from "../services/Api";
 import toast from "react-hot-toast";
@@ -19,6 +21,8 @@ const TodoDetails = () => {
   const [updatedTodo, setUpdatedTodo] = useState({});
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [newNote, setNewNote] = useState({ content: "", date: "" });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // get the todo by id
@@ -144,6 +148,19 @@ const TodoDetails = () => {
       toast.success("Note added successfully!");
     } else {
       toast.error("Failed to add note!");
+    }
+  };
+
+  // handle delete todo
+  const handleDelete = async () => {
+    const result = await deleteTodo(id, currentUser._id);
+    if (result) {
+      toast.success("Todo deleted successfully!", {
+        duration: 3000,
+      });
+      navigate("/todos");
+    } else {
+      toast.error("Failed to delete todo!");
     }
   };
 
@@ -394,19 +411,24 @@ const TodoDetails = () => {
             </div>
           </div>
           <br />
-          {currentUser?._id === todo.userId?._id &&
-            (isEditing ? (
-              <button className="btn btn-success mt-3" onClick={handleSave}>
-                ✅ Save
-              </button>
-            ) : (
-              <button
-                className="btn btn-warning mt-3"
-                onClick={handleEditClick}
-              >
-                ✏️ Edit
-              </button>
-            ))}
+          {currentUser?._id === todo.userId?._id && (
+            <div className="mt-3 d-flex gap-2">
+              {isEditing ? (
+                <button className="btn btn-success" onClick={handleSave}>
+                  ✅ Save
+                </button>
+              ) : (
+                <>
+                  <button className="btn btn-warning" onClick={handleEditClick}>
+                    ✏️ Edit
+                  </button>
+                  <button className="btn btn-danger" onClick={handleDelete}>
+                    🗑️ Delete
+                  </button>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
