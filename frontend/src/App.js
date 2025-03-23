@@ -4,6 +4,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import AllTodos from "./pages/AllTodos";
+import TodoDetails from "./pages/TodoDeatils";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/todos" element={<AllTodos />} />
+          <Route path="/todos/:id" element={<TodoDetails />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -19,8 +19,8 @@ const Navbar = () => {
   const handleUserSelect = (user) => {
     setCurrentUser(user);
     localStorage.setItem("currentUser", JSON.stringify(user));
+    window.dispatchEvent(new Event("storage"));
   };
-
   return (
     <nav className="navbar navbar-expand-lg fixed-top">
       <div className="container-fluid">

@@ -23,3 +23,14 @@ export const fetchAllTodos = async (filters = {}) => {
     return [];
   }
 };
+
+// featch a todo by id
+export const fetchTodoById = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/todos/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching todo details:", error);
+    return null;
+  }
+};

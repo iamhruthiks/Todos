@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchAllTodos } from "../services/Api";
 
 const AllTodos = () => {
@@ -10,6 +11,8 @@ const AllTodos = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const gradients = [
     "linear-gradient(to right, #2193b0, #6dd5ed)",
@@ -214,7 +217,8 @@ const AllTodos = () => {
                       todo.completed ? "text-success" : "text-danger"
                     }`}
                   >
-                    Status: {todo.completed ? "Completed" : "Not Completed"}
+                    Status:{" "}
+                    {todo.completed ? "✅ Completed" : "❌ Not Completed"}
                   </h6>
                   <p className="card-text">
                     <strong>Created By:</strong>{" "}
@@ -231,7 +235,12 @@ const AllTodos = () => {
                     <strong>Created:</strong>{" "}
                     {new Date(todo.createdAt).toLocaleDateString("en-GB")}
                   </p>
-                  <button className="btn btn-primary">View</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => navigate(`/todos/${todo._id}`)}
+                  >
+                    View
+                  </button>
                 </div>
               </div>
             </div>
