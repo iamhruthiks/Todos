@@ -93,6 +93,19 @@ const TodoDetails = () => {
 
   // save the changes in the db
   const handleSave = async () => {
+    const trimmedTitle = updatedTodo.title?.trim();
+    const trimmedDescription = updatedTodo.description?.trim();
+
+    if (!trimmedTitle) {
+      toast.error("Title is required!");
+      return;
+    }
+
+    if (!trimmedDescription) {
+      toast.error("Description is required!");
+      return;
+    }
+
     const payload = {
       ...updatedTodo,
       tags: updatedTodo.tags.filter((tag) => tag.trim().length > 0),
