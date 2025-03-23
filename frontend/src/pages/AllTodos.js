@@ -209,6 +209,13 @@ const AllTodos = () => {
                   <h6 className={`card-subtitle mb-2 text-${todo.priority}`}>
                     Priority: {todo.priority}
                   </h6>
+                  <h6
+                    className={`card-subtitle mb-2 ${
+                      todo.completed ? "text-success" : "text-danger"
+                    }`}
+                  >
+                    Status: {todo.completed ? "Completed" : "Not Completed"}
+                  </h6>
                   <p className="card-text">
                     <strong>Created By:</strong>{" "}
                     {todo.userId?.username || "Not Found"}
