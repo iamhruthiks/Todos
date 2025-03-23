@@ -32,7 +32,6 @@ export const getTodos = async (req, res) => {
       query.priority = priority;
     }
     if (assignedTo) {
-      // Split assignedTo by commas to support multiple users
       const assignedUsersArray = assignedTo.split(",");
       query.assignedUsers = { $in: assignedUsersArray };
     }
@@ -54,7 +53,7 @@ export const getTodoById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const todo = await Todo.findById(id);
+    const todo = await Todo.findById(id).populate("userId", "username");
 
     if (!todo) {
       return res.status(404).json({ message: "Todo not found" });
