@@ -18,11 +18,10 @@ export const getTodos = async (req, res) => {
     let query = {};
 
     if (user) {
-      const userData = await User.findOne({ username: user });
-      if (!userData) {
-        return res.status(404).json({ message: "User not found" });
+      if (!mongoose.Types.ObjectId.isValid(user)) {
+        return res.status(400).json({ message: "Invalid user ID format" });
       }
-      query.userId = userData._id;
+      query.userId = user;
     }
 
     if (tags) {
@@ -38,9 +37,8 @@ export const getTodos = async (req, res) => {
 
     const todos = await Todo.find(query)
       .populate("userId", "username")
-      .sort({
-        [sortBy]: order === "asc" ? 1 : -1,
-      });
+      .sort({ [sortBy]: order === "asc" ? 1 : -1 });
+
     res.status(200).json({ todos });
   } catch (error) {
     console.error("Error fetching todos:", error);
