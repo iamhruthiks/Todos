@@ -48,3 +48,17 @@ export const updateTodo = async (id, updatedData) => {
     return null;
   }
 };
+
+// adding a note to todo
+export const addNoteToTodo = async (id, noteData) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/todos/${id}/notes`,
+      noteData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error adding note to todo:", error);
+    return null;
+  }
+};

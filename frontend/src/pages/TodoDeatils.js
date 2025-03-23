@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchTodoById, fetchUsers, updateTodo } from "../services/Api";
-import toast, { Toaster } from "react-hot-toast";
+import {
+  fetchTodoById,
+  fetchUsers,
+  updateTodo,
+  addNoteToTodo,
+} from "../services/Api";
+import toast from "react-hot-toast";
 
 const TodoDetails = () => {
   const { id } = useParams();
@@ -13,6 +18,7 @@ const TodoDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [updatedTodo, setUpdatedTodo] = useState({});
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [newNote, setNewNote] = useState({ content: "", date: "" });
 
   useEffect(() => {
     // get the todo by id
@@ -99,6 +105,33 @@ const TodoDetails = () => {
     toast.success("Todo updated successfully!", {
       duration: 3000,
     });
+  };
+
+  // handle note changes
+  const handleNoteChange = (e) => {
+    const { name, value } = e.target;
+    setNewNote((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddNote = async () => {
+    if (!newNote.content) {
+      toast.error("Please enter note content!");
+      return;
+    }
+
+    const noteData = {
+      content: newNote.content,
+      date: new Date().toISOString().split("T")[0],
+    };
+
+    const updatedTodoWithNote = await addNoteToTodo(id, noteData);
+    if (updatedTodoWithNote) {
+      setTodo(updatedTodoWithNote);
+      setNewNote({ content: "" });
+      toast.success("Note added successfully!");
+    } else {
+      toast.error("Failed to add note!");
+    }
   };
 
   if (!todo) {
@@ -269,20 +302,85 @@ const TodoDetails = () => {
             {new Date(todo.updatedAt).toLocaleDateString("en-GB")}
           </p>
 
+          {/* notes section */}
           <h6>📝 Notes:</h6>
           {todo.notes.length > 0 ? (
-            <ul className="list-group">
+            <ul className="list-group mb-3">
               {todo.notes.map((note) => (
                 <li key={note._id} className="list-group-item">
                   {note.content}{" "}
-                  <span className="text-muted">({note.date})</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No notes available</p>
+            <p className="mb-3">No notes available</p>
           )}
+          <button
+            className="btn btn-primary mb-3"
+            data-bs-toggle="modal"
+            data-bs-target="#addNoteModal"
+          >
+            ➕ Add Note
+          </button>
 
+          {/* modal */}
+          <div
+            className="modal fade"
+            id="addNoteModal"
+            tabIndex="-1"
+            aria-labelledby="addNoteModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="addNoteModalLabel">
+                    Add a Note
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <div className="mb-3">
+                    <label htmlFor="noteContent" className="form-label">
+                      Note Content
+                    </label>
+                    <textarea
+                      className="form-control"
+                      id="noteContent"
+                      name="content"
+                      value={newNote.content}
+                      onChange={handleNoteChange}
+                      placeholder="Write your note here..."
+                      rows="3"
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleAddNote}
+                    data-bs-dismiss="modal"
+                  >
+                    Save Note
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
           {currentUser?._id === todo.userId?._id &&
             (isEditing ? (
               <button className="btn btn-success mt-3" onClick={handleSave}>
