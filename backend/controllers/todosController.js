@@ -160,7 +160,11 @@ export const updateTodo = async (req, res) => {
     todo.updatedAt = new Date();
 
     const updatedTodo = await todo.save();
-    res.status(200).json(updatedTodo);
+    const populatedTodo = await Todo.findById(updatedTodo._id).populate(
+      "userId",
+      "username"
+    );
+    res.status(200).json(populatedTodo);
   } catch (error) {
     console.error("Error updating todo:", error);
     res.status(500).json({ message: "Internal server error" });
