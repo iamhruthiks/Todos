@@ -34,3 +34,17 @@ export const fetchTodoById = async (id) => {
     return null;
   }
 };
+
+// update a todo by id
+export const updateTodo = async (id, updatedData) => {
+  try {
+    const response = await axios.put(
+      `${API_BASE_URL}/todos/${id}`,
+      updatedData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating todo:", error);
+    return null;
+  }
+};
