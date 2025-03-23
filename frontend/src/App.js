@@ -6,7 +6,8 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import AllTodos from "./pages/AllTodos";
 import TodoDetails from "./pages/TodoDeatils";
-import Profile from "./pages/Dashboard";
+import DashBoard from "./pages/Dashboard";
+import CreateTodo from "./pages/CreateTodo";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/todos" element={<AllTodos />} />
           <Route path="/todos/:id" element={<TodoDetails />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/create" element={<CreateTodo />} />
         </Routes>
       </div>
     </BrowserRouter>

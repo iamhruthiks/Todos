@@ -35,6 +35,17 @@ export const fetchTodoById = async (id) => {
   }
 };
 
+// creating a new todo
+export const createTodo = async (todoData) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/todos`, todoData);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating todo:", error);
+    return null;
+  }
+};
+
 // update a todo by id
 export const updateTodo = async (id, updatedData) => {
   try {

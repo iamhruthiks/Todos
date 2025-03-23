@@ -62,7 +62,17 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <NavLink
-                to="/profile"
+                to="/create"
+                className={({ isActive }) =>
+                  isActive ? "nav-link active" : "nav-link"
+                }
+              >
+                Create Todo
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to="/dashboard"
                 className={({ isActive }) =>
                   isActive ? "nav-link active" : "nav-link"
                 }
@@ -86,6 +96,7 @@ const Navbar = () => {
                 {users.map((user) => (
                   <li key={user._id}>
                     <a
+                      role="button"
                       className="dropdown-item"
                       onClick={() => handleUserSelect(user)}
                     >

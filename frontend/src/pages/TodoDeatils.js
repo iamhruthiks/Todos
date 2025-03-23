@@ -158,7 +158,7 @@ const TodoDetails = () => {
       toast.success("Todo deleted successfully!", {
         duration: 3000,
       });
-      navigate("/todos");
+      navigate("/dashboard");
     } else {
       toast.error("Failed to delete todo!");
     }
@@ -173,6 +173,7 @@ const TodoDetails = () => {
       <div className="card shadow">
         <div className="card-body">
           <h3 className="card-title">
+            <strong>Title:</strong>{" "}
             {isEditing ? (
               <input
                 type="text"
@@ -331,7 +332,6 @@ const TodoDetails = () => {
             <strong>Updated:</strong>{" "}
             {new Date(todo.updatedAt).toLocaleDateString("en-GB")}
           </p>
-
           {/* notes section */}
           <h6>📝 Notes:</h6>
           {todo.notes.length > 0 ? (
@@ -352,7 +352,6 @@ const TodoDetails = () => {
           >
             ➕ Add Note
           </button>
-
           {/* modal */}
           <div
             className="modal fade"

@@ -67,8 +67,8 @@ const DashBoard = () => {
 
   return (
     <div className="container mt-4">
-      <h4 className="text-strat">Name: {currentUser.username}</h4>
-      <h4 className="mb-5 mb-md-1 text-strat">email: {currentUser.email}</h4>
+      <h4 className="text-primary">Name: {currentUser.username}</h4>
+      <h4 className="mb-5 mb-md-1 text-success">email : {currentUser.email}</h4>
       <h2 className="mb-4 text-center">My Todo</h2>
       {/* filter buttons*/}
       <div className="row justify-content-center mb-4">
