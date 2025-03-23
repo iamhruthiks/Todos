@@ -35,10 +35,11 @@ export const getTodos = async (req, res) => {
       query.assignedUsers = { $in: [assignedTo] };
     }
 
-    const todos = await Todo.find(query).sort({
-      [sortBy]: order === "asc" ? 1 : -1,
-    });
-
+    const todos = await Todo.find(query)
+      .populate("userId", "username")
+      .sort({
+        [sortBy]: order === "asc" ? 1 : -1,
+      });
     res.status(200).json({ todos });
   } catch (error) {
     console.error("Error fetching todos:", error);
