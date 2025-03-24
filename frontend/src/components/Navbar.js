@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { fetchUsers } from "../services/Api";
+import { fetchUsers, exportTodos } from "../services/Api";
 
 const Navbar = () => {
   const [users, setUsers] = useState([]);
@@ -16,11 +16,18 @@ const Navbar = () => {
     getUsers();
   }, []);
 
+  // handel user switching
   const handleUserSelect = (user) => {
     setCurrentUser(user);
     localStorage.setItem("currentUser", JSON.stringify(user));
     window.dispatchEvent(new Event("storage"));
   };
+
+  // handle export todos
+  const handleExport = (format) => {
+    exportTodos(format);
+  };
+
   return (
     <nav className="navbar navbar-expand-lg fixed-top">
       <div className="container-fluid">
@@ -80,12 +87,49 @@ const Navbar = () => {
                 Dashboard
               </NavLink>
             </li>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Export
+              </a>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <li>
+                  <a
+                    role="button"
+                    className="dropdown-item"
+                    onClick={() => {
+                      handleExport("json");
+                    }}
+                  >
+                    JSON
+                  </a>
+                </li>
+                <li>
+                  <a
+                    role="button"
+                    className="dropdown-item"
+                    onClick={() => {
+                      handleExport("csv");
+                    }}
+                  >
+                    CSV
+                  </a>
+                </li>
+              </ul>
+            </li>
           </ul>
           <ul className="navbar-nav right-nav">
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
-                href="#"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"

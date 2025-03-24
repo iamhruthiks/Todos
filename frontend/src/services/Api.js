@@ -86,3 +86,34 @@ export const addNoteToTodo = async (id, noteData) => {
     return null;
   }
 };
+
+// exporting the the todos
+export const exportTodos = async (format) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/todos/export?format=${format}`,
+      {
+        responseType: format === "csv" ? "blob" : "json",
+      }
+    );
+
+    let blob;
+    if (format === "csv") {
+      blob = new Blob([response.data], { type: "text/csv" });
+    } else {
+      const jsonString = JSON.stringify(response.data, null, 2);
+      blob = new Blob([jsonString], { type: "application/json" });
+    }
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `todos.${format}`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  } catch (error) {
+    console.error("Error exporting todos:", error);
+  }
+};
