@@ -12,6 +12,14 @@ const Navbar = () => {
     const getUsers = async () => {
       const fetchedUsers = await fetchUsers();
       setUsers(fetchedUsers);
+
+      // auto select the first user if none selected
+      if (!currentUser && fetchedUsers.length > 0) {
+        const firstUser = fetchedUsers[0];
+        setCurrentUser(firstUser);
+        localStorage.setItem("currentUser", JSON.stringify(firstUser));
+        window.dispatchEvent(new Event("storage"));
+      }
     };
     getUsers();
   }, []);
