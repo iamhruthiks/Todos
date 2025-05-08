@@ -118,8 +118,7 @@ npm run start
 ## 🌐 Deployment
 
 - 🌱 Both the frontend and backend are deployed on **Vercel**.
-- 🔴 Live App: https://todosapp-flax.vercel.app/todos
-
+- 🔴 Live App: https://todosapp-flax.vercel.app
 ---
 
 ## 📷 Screenshots
